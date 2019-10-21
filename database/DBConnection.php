@@ -5,8 +5,10 @@ class DBConnection {
 
   private $servername = 'localhost';
   private $dbname = 'test_michel';
-  private $username = 'root';
-  private $password = 'michel88';
+  private $username = 'test_michel';
+  // private $username = 'root';
+  private $password = 't3st_m1ch3ll.';
+  // private $password = 'michel88';
 
   function __construct()
   {
