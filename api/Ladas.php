@@ -11,6 +11,11 @@ class Ladas {
     $this->makeConn = new DBConnection();  
   }
 
+  /**
+   * Se obtienen todas las ladas de la tabla
+   *
+   * @return void
+   */
   public function getLadas()
   {
     try {

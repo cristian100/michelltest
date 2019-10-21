@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 
-  <title>Main Page here!</title>
+  <title>Home Page</title>
 </head>
 
 <body>
@@ -49,6 +49,35 @@
     </div>
 
     <br>
+
+    <form id="searchForm">
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="search">Serach</label>
+            <input type="text" name="search" id="search" class="form-control" placeholder="Please type something...">
+            <small> Press enter after typing </small>
+            <br>
+            <small> Press Esc after typing for refresh table </small>
+
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="">Filter:</label>
+            <select class="form-control" name="filtro" id="filtro">
+              <option value="first_name">Name</option>
+              <option value="last_name">Last Name</option>
+              <option value="phone_number">Phone Number</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+    </form>
 
     <br>
     <div class="row">
@@ -147,11 +176,16 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="">Phone Number</label>
-                    <input type="number" name="phone_number" id="phone_number" class="form-control" placeholder="Write your phone please...">
+                    <input type="text" name="phone_number" id="phone_number" class="form-control" placeholder="Write your phone please...">
                   </div>
                 </div>
 
               </div>
+
+              <div id="empty-alert">
+
+              </div>
+
 
               <div class="row">
                 <div class="col-md-6">

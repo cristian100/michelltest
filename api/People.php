@@ -12,7 +12,55 @@ class People
     $this->makeConn = new DBConnection();
   }
 
+  /**
+   * Se obtiene todos los registros mediante la busqueda en la tabla People
+   *
+   * @param array $search
+   * @return void
+   */
+  public function search($search)
+  {
+    try {
 
+      $conn = $this->makeConn->makeConnection();
+
+      $res = $conn->query("
+      select p.first_name, p.company, l.lada, p.last_name, p.id, p.phone_number, l.lada, l.city, l.state from People as p
+      inner join Ladas as l on l.id = p.lada_id where p." . $search['filter'] . " like '%" . $search['search'] . "%';
+      ");
+
+
+      $array_result = [];
+
+      foreach ($res->fetchAll() as $item) {
+        array_push(
+          $array_result,
+          [
+            'last_name' => $item['last_name'],
+            'first_name' => $item['first_name'],
+            'city' => $item['city'],
+            'lada' => $item['lada'],
+            'state' => $item['state'],
+            'company' => $item['company'],
+            'phone_number' => $item['phone_number'],
+            'id' => $item['id']
+          ]
+        );
+      }
+
+      echo json_encode($array_result);
+    } catch (Exception $e) {
+      echo 'Ocurrió un error al realizar la busqueda';
+    }
+  }
+
+
+  /**
+   * Crea un nuevo registro en la tabla Person
+   *
+   * @param array $data
+   * @return void
+   */
   public function createNewPerson($data)
   {
     try {
@@ -34,6 +82,11 @@ class People
     }
   }
 
+  /**
+   * Obtiene la lista de todas las personas registradas en la tabla People
+   *
+   * @return void
+   */
   public function getPeople()
   {
     try {
@@ -68,6 +121,12 @@ class People
     }
   }
 
+  /**
+   * Elimina el registro con el id indicado
+   *
+   * @param string $id
+   * @return void
+   */
   public function deletePerson($id)
   {
     try {
@@ -87,22 +146,35 @@ class People
 }
 
 header('Content-Type: application/json');
-$ej = new People();
+$person = new People();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+/**
+ * Selección de metodo para poder elegir la función a utilizar
+ */
+
 switch ($method) {
   case 'GET':
-    $ej->getPeople();
+    $person->getPeople();
     break;
   case 'POST':
     if ($_POST['method'] === 'create') {
-      $ej->createNewPerson($_POST);
+      $person->createNewPerson($_POST);
+      break;
     }
 
     if ($_POST['method'] === 'delete') {
-      $ej->deletePerson($_POST['id']);
+      $person->deletePerson($_POST['id']);
+      break;
     }
+
+    if ($_POST['method'] === 'search') {
+      $person->search($_POST);
+      break;
+    }
+
+
     break;
   default:
     break;
