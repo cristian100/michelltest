@@ -32,3 +32,5 @@ ADD column activate_date date NOT NULL
 
 select p.first_name, p.last_name, p.phone_number, l.lada, l.city, l.state from People as p
 inner join Ladas as l where l.id = p.lada_id;
+
+mv -v /var/www/static/test/michel/html/michelltest/* /var/www/static/test/michel/html/
