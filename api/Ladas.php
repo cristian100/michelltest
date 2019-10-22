@@ -12,6 +12,12 @@ class Ladas
     $this->makeConn = new DBConnection();
   }
 
+  /**
+   * Crea un registro en la taba Ladas
+   *
+   * @param array $data
+   * @return void
+   */
   public function createLada($data)
   {
     try {

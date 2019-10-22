@@ -51,6 +51,10 @@ $('#newPersonForm').on('submit', function (e) {
 });
 
 
+
+/**
+ * Evento para crear una nueva lada
+ */
 $('#newLadaForm').on('submit', function (e) {
 
   e.preventDefault();
