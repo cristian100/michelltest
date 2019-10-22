@@ -24,10 +24,42 @@ class People
 
       $conn = $this->makeConn->makeConnection();
 
-      $res = $conn->query("
-      select p.first_name, p.company, l.lada, p.last_name, p.id, p.phone_number, l.lada, l.city, l.state from People as p
-      inner join Ladas as l on l.id = p.lada_id where p." . $search['filter'] . " like '%" . $search['search'] . "%';
-      ");
+      $filter = '';
+
+      foreach ($search as $key => $item) {
+
+        if ($key !== 'method' && $key !== 'search') {
+
+          if ($key === 'city' || $key === 'lada' || $key === 'state') {
+            
+            $filter .= $item ? 'l.' . $key . " like '%" . $search['search'] . "%' or "  : '';
+          } else {
+
+            $filter .= $item ? 'p.' . $key . " like '%" . $search['search'] . "%' or "  : '';
+          }
+        }
+      }
+      if (!$filter) {
+        return;
+      }
+
+      $resuls = preg_split('/\s+/', $filter);
+
+      $final_filter = '';
+
+      array_pop($resuls);
+      array_pop($resuls);
+
+      foreach ($resuls as $word) {
+
+
+        $final_filter .= $word . ' ';
+      }
+
+      $query = 'select p.first_name, p.activation_date, p.company, l.lada, p.last_name, p.id, p.phone_number, l.lada, l.city, l.state from People as p
+      inner join Ladas as l on l.id = p.lada_id where ' . "$final_filter;";
+
+      $res = $conn->query($query);
 
 
       $array_result = [];
@@ -42,6 +74,7 @@ class People
             'lada' => $item['lada'],
             'state' => $item['state'],
             'company' => $item['company'],
+            'activation_date' => $item['activation_date'],
             'phone_number' => $item['phone_number'],
             'id' => $item['id']
           ]
@@ -66,13 +99,14 @@ class People
     try {
 
       $conn = $this->makeConn->makeConnection();
-      $res = $conn->prepare('insert into People(last_name, first_name, phone_number, lada_id, company) values(:last_name, :first_name, :phone_number, :lada_id, :company)');
+      $res = $conn->prepare('insert into People(last_name, first_name, phone_number, lada_id, company, activation_date) values(:last_name, :first_name, :phone_number, :lada_id, :company, :activation_date)');
 
       $res->bindParam(':last_name', $data['last_name']);
       $res->bindParam(':first_name', $data['first_name']);
       $res->bindParam(':phone_number', $data['phone_number']);
       $res->bindParam(':lada_id', $data['lada_id']);
       $res->bindParam(':company', $data['company']);
+      $res->bindParam(':activation_date', $data['activation_date']);
 
       $res->execute();
 
@@ -94,7 +128,7 @@ class People
       $conn = $this->makeConn->makeConnection();
 
       $res = $conn->query('
-      select p.first_name, p.company, l.lada, p.last_name, p.id, p.phone_number, l.lada, l.city, l.state from People as p
+      select p.first_name, p.company, p.activation_date, l.lada, p.last_name, p.id, p.phone_number, l.lada, l.city, l.state from People as p
       inner join Ladas as l where l.id = p.lada_id;');
 
       $array_result = [];
@@ -109,6 +143,7 @@ class People
             'lada' => $item['lada'],
             'state' => $item['state'],
             'company' => $item['company'],
+            'activation_date' => $item['activation_date'],
             'phone_number' => $item['phone_number'],
             'id' => $item['id']
           ]

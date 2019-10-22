@@ -39,12 +39,23 @@
     <br>
 
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-4">
 
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
           Create new Person
         </button>
 
+      </div>
+
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-md-4">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalLada">
+          Create new LADA
+        </button>
       </div>
     </div>
 
@@ -67,12 +78,23 @@
 
         <div class="col-md-4">
           <div class="form-group">
+
             <label for="">Filter:</label>
-            <select class="form-control" name="filtro" id="filtro">
+            <br>
+            <!-- <select class="form-control" name="filtro" id="filtro">
               <option value="first_name">Name</option>
               <option value="last_name">Last Name</option>
               <option value="phone_number">Phone Number</option>
-            </select>
+            </select> -->
+
+            <input type="checkbox" id="filter_first_name" name="first_name" value="first_name" checked> First Name <br>
+            <input type="checkbox" id="filter_last_name" name="last_name" value="last_name"> Last Name <br>
+            <input type="checkbox" id="filter_phone_number" name="phone_number" value="phone_number"> Phone Number <br>
+            <input type="checkbox" id="filter_city" name="city" value="city"> City <br>
+            <input type="checkbox" id="filter_lada" name="lada" value="lada"> Lada <br>
+            <input type="checkbox" id="filter_state" name="state" value="state"> State <br>
+            <input type="checkbox" id="filter_company" name="company" value="company"> Company<br>
+
           </div>
         </div>
       </div>
@@ -82,7 +104,7 @@
     <br>
     <div class="row">
       <div class="col-md-12">
-        <table class="table">
+        <table class="table table-responsive">
           <tr>
             <th>
               id
@@ -105,6 +127,7 @@
             <th> Phone number</th>
             <th> Company</th>
             <th> Lada</th>
+            <th> Activation Date</th>
 
             <th> Actions </th>
           </tr>
@@ -166,6 +189,19 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
+                    <label for="">Activation date</label>
+
+                    <input type="date" name="activation_date" id="activation_date" class="form-control" placeholder="Write your company...">
+
+
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
                     <label for="">Company</label>
                     <input type="text" name="company" id="company" class="form-control" placeholder="Write your company...">
                   </div>
@@ -183,6 +219,72 @@
               </div>
 
               <div id="empty-alert">
+
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-6">
+                  <button class="btn btn-success" type="submit">Submit</button>
+                </div>
+              </div>
+            </form>
+
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal" id="myModalLada">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h4 class="modal-title">Creating new LADA</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <form id="newLadaForm">
+              <div class="row">
+
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="">LADA</label>
+                    <input type="text" name="lada" id="pop_lada" class="form-control" placeholder="Write your name please...">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="">City</label>
+                    <input type="text" name="city" id="pop_city" class="form-control" placeholder="Write your last name please...">
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="">State</label>
+                    <input type="text" name="state" id="pop_state" class="form-control" placeholder="Write your last name please...">
+                  </div>
+                </div>
+
+              </div>
+
+
+              <div id="empty-alert-lada">
 
               </div>
 

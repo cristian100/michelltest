@@ -51,6 +51,50 @@ $('#newPersonForm').on('submit', function (e) {
 });
 
 
+$('#newLadaForm').on('submit', function (e) {
+
+  e.preventDefault();
+
+  $lada = $('#pop_lada').val();
+  $city = $('#pop_city').val();
+  $state = $('#pop_state').val();
+
+
+  if (!$lada || !$city || !$state) {
+
+    $('#empty-alert-lada').append(`
+
+    <p style="color: red;"> * Debe llenar todos los campos</p>
+
+    `);
+
+    setTimeout(e => {
+      $('#empty-alert-lada').empty();
+    }, 2000);
+
+
+  } else {
+
+    $data = $('#newLadaForm').serializeArray();
+
+    $.ajax({
+      url: 'api/Ladas.php',
+      method: 'POST',
+      data: $data,
+      success: function (result) {
+        $('#ladas').empty();
+        getLadas();
+        refreshAndNotificate();
+        $('#newLadaForm').trigger('reset');
+        $('#myModalLada').modal('hide');
+
+      }
+    });
+
+  }
+
+});
+
 /**
  * Evento realizado al presionar escape para poder refrescar la
  * tabla de las personas
@@ -77,11 +121,16 @@ $('#searchForm').on('submit', function (e) {
     method: 'POST',
     data: {
       search: $('#search').val(),
-      filter: $('#filtro').val(),
-      method: 'search'
+      method: 'search',
+      first_name: $('#filter_first_name').is(":checked") ? $('#filter_first_name').val() : '',
+      last_name: $('#filter_last_name').is(":checked") ? $('#filter_last_name').val() : '',
+      phone_number: $('#filter_phone_number').is(":checked") ? $('#filter_phone_number').val() : '',
+      city: $('#filter_city').is(":checked") ? $('#filter_city').val() : '',
+      lada: $('#filter_lada').is(":checked") ? $('#filter_lada').val() : '',
+      state: $('#filter_state').is(":checked") ? $('#filter_state').val() : '',
+      company: $('#filter_company').is(":checked") ? $('#filter_company').val() : ''
     },
     success: function (result) {
-
       $('#bodyData').empty();
 
       result.forEach(e => {
@@ -95,6 +144,7 @@ $('#searchForm').on('submit', function (e) {
           <td> ${e.phone_number} </td>
           <td> ${e.company} </td>
           <td> ${e.lada} </td>
+          <td> ${e.activation_date} </td>
           <td> <button class="btn btn-danger" onclick="deletePerson(${e.id})"> <i class="fa fa-trash"> </i> </button>  </td>
           </tr>
         `);
@@ -114,8 +164,9 @@ function getLadas() {
     url: 'api/Ladas.php',
     method: 'GET',
     success: function (result) {
-
+      
       result.forEach(e => {
+        
         $('#ladas').append(`
           <option value="${e.id}"> ${e.state} - ${e.city}: ${e.lada} </option>
         `);
@@ -147,6 +198,7 @@ function getPeople() {
           <td> ${e.phone_number} </td>
           <td> ${e.company} </td>
           <td> ${e.lada} </td>
+          <td> ${e.activation_date} </td>
           <td> <button class="btn btn-danger" onclick="deletePerson(${e.id})"> <i class="fa fa-trash"> </i> </button>  </td>
           </tr>
         `);

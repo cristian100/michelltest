@@ -2,13 +2,34 @@
 
 include '../database/DBConnection.php';
 
-class Ladas {
+class Ladas
+{
 
   private $makeConn;
-  
+
   function __construct()
   {
-    $this->makeConn = new DBConnection();  
+    $this->makeConn = new DBConnection();
+  }
+
+  public function createLada($data)
+  {
+    try {
+
+      $conn = $this->makeConn->makeConnection();
+      $res = $conn->prepare('insert into Ladas(lada, city, state) values(:lada, :city, :state);');
+
+      $res->bindParam(':lada', $data['lada']);
+      $res->bindParam(':city', $data['city']);
+      $res->bindParam(':state', $data['state']);
+
+
+      $res->execute();
+
+      echo json_encode(['code' => 200]);
+    } catch (Exception $e) {
+      echo json_encode(['code' => 500]);
+    }
   }
 
   /**
@@ -27,7 +48,8 @@ class Ladas {
       $array_result = [];
 
       foreach ($res->fetchAll() as $item) {
-        array_push($array_result,
+        array_push(
+          $array_result,
           [
             'lada' => $item['lada'],
             'city' => $item['city'],
@@ -39,7 +61,6 @@ class Ladas {
       }
 
       echo json_encode($array_result);
-
     } catch (Exception $e) {
       echo 'Ocurrió un error al obtener las ladas';
     }
@@ -47,6 +68,21 @@ class Ladas {
 }
 
 header('Content-Type: application/json');
-$ej = new Ladas();
+$lada = new Ladas();
 
-$ej->getLadas();
+$method = $_SERVER['REQUEST_METHOD'];
+
+/**
+ * Selección de metodo para poder elegir la función a utilizar
+ */
+
+switch ($method) {
+  case 'GET':
+    $lada->getLadas();
+    break;
+  case 'POST':
+    $lada->createLada($_POST);
+    break;
+  default:
+    break;
+}
